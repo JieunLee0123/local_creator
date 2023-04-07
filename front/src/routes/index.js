@@ -1,16 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import localCreatorPage from '@/components/localCreatorPage'
+import jsonToCsv from '@/components/jsonToCsv'
 
 Vue.use(Router)
 
 export const router = new Router({
   mode: 'history',
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'localCreator',
+    //   component: localCreatorPage
+    // },
     {
       path: '/',
-      name: 'localCreator',
-      component: localCreatorPage
+      name: 'jsonToCsv',
+      component: jsonToCsv
     },
   ]
 })
