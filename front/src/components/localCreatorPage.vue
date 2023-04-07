@@ -143,7 +143,7 @@ export default {
           (selectYearTag ? selectYearTag.innerText.replace('선정년도', '') : '-'),
           (locationTag ? locationTag.innerText.replace('소재지', '') : '-'),
           (fieldTag ? fieldTag.innerText.replace('7대분야', '') : '-'),
-          (contentTag ? contentTag.innerText.replace('▶ ', '').replaceAll(/\n/ig, '').replaceAll(/\t/ig, '') : '-')
+          (contentTag ? contentTag.innerText.replaceAll(/▶ /ig, '').replaceAll(/\n/ig, '').replaceAll(/\t/ig, '') : '-')
         ]
 
         const obj = {
