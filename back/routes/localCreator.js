@@ -27,7 +27,21 @@ const localsArr = [
   { reginCd: "LC17", pageCnt: 3, value: "세종" },
 ]
 
-const getLocalData = async (reginCd, pageCnt) => {
+const getDataStr = async (data) => {
+  let dataStr = ''
+  await axios
+    .post(url, data, headers)
+    .then((response) => {
+      dataStr += response.data
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+  
+  return dataStr
+}
+
+const loopRequest = async (reginCd, pageCnt) => {
   let dataStr = ''
 
   for (let i = 1; i <= pageCnt; i++){
@@ -39,14 +53,7 @@ const getLocalData = async (reginCd, pageCnt) => {
       IdntrpYn: 'Y'
     })
     
-    await axios
-    .post(url, data, headers)
-    .then((response) => {
-      dataStr += response.data
-    })
-    .catch((err) => {
-      res.send(err)
-    })
+    dataStr += await getDataStr(data)
   }
 
   return dataStr
@@ -56,7 +63,7 @@ router.get('/', function (req, res, next) {
   const getDatas = async localsArr => {
     let datasStr = ''
     for (let localObj of localsArr) {
-      datasStr += await getLocalData(localObj.reginCd, localObj.pageCnt)
+      datasStr += await loopRequest(localObj.reginCd, localObj.pageCnt)
     }
     res.send(datasStr)
   }
@@ -72,7 +79,7 @@ router.post('/', async function (req, res, next) {
     localsArr.find(obj => obj.value === value).pageCnt,
   ]
   
-  const dataStr = await getLocalData(reginCd, pageCnt)
+  const dataStr = await loopRequest(reginCd, pageCnt)
   res.send(dataStr)
 });
 
